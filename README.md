@@ -1,10 +1,10 @@
-#<img width="1536" height="1536" alt="Gemini_Generated_Image_qwsjgmqwsjgmqwsj" src="https://github.com/user-attachments/assets/693256b8-88e6-4f6d-b419-be4cdf132706" />
+<img width="1536" height="1536" alt="Gemini_Generated_Image_qwsjgmqwsjgmqwsj" src="https://github.com/user-attachments/assets/693256b8-88e6-4f6d-b419-be4cdf132706" />
 
- Deep
+# Deep
 A high-quality, offline question game designed to provoke thought and conversation.
 
 ## Features
-- **Offline First**: No internet required. All 4 categories (The Void, The Mirror, The Taboo, The End) are built-in.
+- **Offline First**: No internet required. 
 - **Fluid Gestures**:
     - **Swipe Left**: Next Question.
     - **Swipe Right**: Previous Question (with History support).
