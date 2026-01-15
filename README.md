@@ -1,4 +1,4 @@
-<img width="1536" height="1536" alt="Gemini_Generated_Image_qwsjgmqwsjgmqwsj" src="https://github.com/user-attachments/assets/693256b8-88e6-4f6d-b419-be4cdf132706" />
+<img src="https://github.com/user-attachments/assets/693256b8-88e6-4f6d-b419-be4cdf132706" alt="Deep Logo" width="300"/>
 
 # Deep
 A high-quality, offline question game designed to provoke thought and conversation.
@@ -47,5 +47,4 @@ A high-quality, offline question game designed to provoke thought and conversati
 - **Drag Up**: Heart icon appears -> Favorites.
 - **Drag Down**: Trash icon appears -> Ban.
 
-<img width="2567" height="1209" alt="Gemini_Generated_Image_qz2q0tqz2q0tqz2q" src="https://github.com/user-attachments/assets/25d336b2-a3e4-4c7b-94d7-557bd5f1b917" />
-
+<img src="https://github.com/user-attachments/assets/25d336b2-a3e4-4c7b-94d7-557bd5f1b917" alt="Deep Banner" width="800"/>
