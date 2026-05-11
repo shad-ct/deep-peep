@@ -5,7 +5,6 @@ import '../providers/game_provider.dart';
 import '../data/questions.dart';
 
 import '../providers/language_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});

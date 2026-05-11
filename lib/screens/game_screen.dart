@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import '../providers/language_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,30 +58,40 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     icon: const Icon(Icons.arrow_back, color: Colors.white38),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  Hero(
-                    tag: 'category_${category?.name ?? ""}',
-                    child: Text(
-                      category?.getDisplayName(language).toUpperCase() ?? "",
-                      style: TextStyle(
-                        letterSpacing: 2, 
-                        fontWeight: FontWeight.bold, 
-                        color: Colors.white38,
-                        fontSize: 14,
-                        decoration: TextDecoration.none,
-                         fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                  Expanded(
+                    child: Hero(
+                      tag: 'category_${category?.name ?? ""}',
+                      child: Text(
+                        category?.getDisplayName(language).toUpperCase() ?? "",
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          letterSpacing: 1, 
+                          fontWeight: FontWeight.bold, 
+                          color: Colors.white38,
+                          fontSize: 12,
+                          decoration: TextDecoration.none,
+                           fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                        ),
                       ),
                     ),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-// ... rest remains same ...
                       IconButton(
                         icon: const Icon(Icons.share, color: Colors.white38),
                         onPressed: () {
                            if (session.current != null) {
-                             _shareQuestion(session.current!.text);
+                             _shareQuestion(session.current!.getLocalizedText(language));
                            }
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.translate, color: Colors.white38),
+                        onPressed: () {
+                          ref.read(languageProvider.notifier).toggle();
                         },
                       ),
                       IconButton(
