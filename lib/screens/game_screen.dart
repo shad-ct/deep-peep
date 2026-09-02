@@ -72,7 +72,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                           color: Colors.white38,
                           fontSize: 12,
                           decoration: TextDecoration.none,
-                           fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                           fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                         ),
                       ),
                     ),

@@ -130,7 +130,7 @@ class _CategoryButton extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
-                      fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                      fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                     ),
                   ),
                 ),
@@ -139,7 +139,7 @@ class _CategoryButton extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[500],
-                    fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                    fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                   ),
                 ),
               ],

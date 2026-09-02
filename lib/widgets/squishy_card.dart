@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import '../models/question.dart';
 import '../providers/language_provider.dart';
@@ -171,7 +170,7 @@ class _SquishyCardState extends State<SquishyCard> with SingleTickerProviderStat
                 const Gap(8),
                 Text(
                   widget.language == AppLanguage.malayalam ? "ഇഷ്ടനായി" : "FAVORITE", 
-                  style: GoogleFonts.inter(fontWeight: FontWeight.bold, color: Colors.pinkAccent, fontSize: 16)
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.pinkAccent, fontSize: 16, fontFamily: 'Inter')
                 ),
               ],
             ),
@@ -188,7 +187,7 @@ class _SquishyCardState extends State<SquishyCard> with SingleTickerProviderStat
               children: [
                 Text(
                   widget.language == AppLanguage.malayalam ? "നീക്കം ചെയ്യുക" : "REMOVE", 
-                  style: GoogleFonts.inter(fontWeight: FontWeight.bold, color: Colors.redAccent, fontSize: 16)
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent, fontSize: 16, fontFamily: 'Inter')
                 ),
                 const Gap(8),
                 const Icon(Icons.delete, color: Colors.redAccent, size: 50),
@@ -208,7 +207,7 @@ class _SquishyCardState extends State<SquishyCard> with SingleTickerProviderStat
                 const Icon(Icons.arrow_forward, color: Colors.blueAccent, size: 40),
                 Text(
                   widget.language == AppLanguage.malayalam ? "ചരിത്രം" : "HISTORY", 
-                  style: GoogleFonts.inter(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 12)
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 12, fontFamily: 'Inter')
                 ),
               ],
             ),
@@ -226,7 +225,7 @@ class _SquishyCardState extends State<SquishyCard> with SingleTickerProviderStat
                  const Icon(Icons.arrow_back, color: Colors.white24, size: 40),
                  Text(
                    widget.language == AppLanguage.malayalam ? "അടുത്തത്" : "NEXT", 
-                   style: GoogleFonts.inter(fontWeight: FontWeight.bold, color: Colors.white24, fontSize: 12)
+                   style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white24, fontSize: 12, fontFamily: 'Inter')
                  ),
               ],
             ),
@@ -257,23 +256,74 @@ class _SquishyCardState extends State<SquishyCard> with SingleTickerProviderStat
                 ],
               ),
               child: Center(
-                child: Text(
-                  widget.question.getLocalizedText(widget.language),
-                  key: ValueKey(widget.question.getLocalizedText(widget.language)),
-                  style: TextStyle(
-                      fontSize: 22,
-                      height: 1.4,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFFE4E4E7), // Zinc 200
-                      fontFamily: widget.language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : 'Inter'
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                child: _BilingualText(question: widget.question, language: widget.language),
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+//  Bilingual text widget: shows Malayalam primary + English secondary
+// ─────────────────────────────────────────────
+class _BilingualText extends StatelessWidget {
+  final Question question;
+  final AppLanguage language;
+
+  const _BilingualText({required this.question, required this.language});
+
+  @override
+  Widget build(BuildContext context) {
+    final isMl = language == AppLanguage.malayalam;
+
+    if (isMl && question.textMl != null && question.textMl!.isNotEmpty) {
+      // Malayalam primary + English secondary
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            question.textMl!,
+            key: ValueKey('ml_${question.id}'),
+            style: const TextStyle(
+              fontSize: 22,
+              height: 1.5,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFFE4E4E7),
+              fontFamily: 'NotoSansMalayalam',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 14),
+          Text(
+            question.text,
+            key: ValueKey('en_${question.id}'),
+            style: TextStyle(
+              fontSize: 16,
+              height: 1.4,
+              color: Colors.white.withOpacity(0.7),
+              fontFamily: 'Inter',
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
+    }
+
+    // English only
+    return Text(
+      question.text,
+      key: ValueKey('en_${question.id}'),
+      style: const TextStyle(
+        fontSize: 22,
+        height: 1.4,
+        fontWeight: FontWeight.w500,
+        color: Color(0xFFE4E4E7),
+        fontFamily: 'Inter',
+      ),
+      textAlign: TextAlign.center,
     );
   }
 }

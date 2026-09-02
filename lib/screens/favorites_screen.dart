@@ -21,7 +21,7 @@ class FavoritesScreen extends ConsumerWidget {
           language == AppLanguage.malayalam ? 'പ്രിയപ്പെട്ടവ' : 'Favorites', 
           style: TextStyle(
             letterSpacing: 1,
-            fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+            fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
           )
         ),
         backgroundColor: Colors.transparent,
@@ -73,7 +73,7 @@ class FavoritesScreen extends ConsumerWidget {
                         style: TextStyle(
                            fontSize: 16, 
                            color: const Color(0xFFE4E4E7),
-                           fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                           fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                         ),
                       ),
                       const Gap(8),
@@ -82,7 +82,7 @@ class FavoritesScreen extends ConsumerWidget {
                         style: TextStyle(
                            fontSize: 12, 
                            color: Colors.white24,
-                           fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                           fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                         ),
                       ),
                     ],

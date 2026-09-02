@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'screens/start_screen.dart';
+import 'app_shell.dart';
 
 void main() {
   runApp(const ProviderScope(child: DeepApp()));
@@ -13,7 +12,7 @@ class DeepApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Deep',
+      title: 'Deep Peep',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -23,15 +22,16 @@ class DeepApp extends StatelessWidget {
           secondary: Color(0xFF27272A), // Zinc 800
           surface: Color(0xFF18181B), // Zinc 900
         ),
-        textTheme: GoogleFonts.interTextTheme(
-          ThemeData.dark().textTheme,
-        ).apply(
-          bodyColor: const Color(0xFFD4D4D8), // Zinc 300 (approx grey)
+        // Use locally bundled Inter font — no runtime network requests
+        fontFamily: 'Inter',
+        textTheme: ThemeData.dark().textTheme.apply(
+          bodyColor: const Color(0xFFD4D4D8), // Zinc 300
           displayColor: Colors.white,
+          fontFamily: 'Inter',
         ),
         useMaterial3: true,
       ),
-      home: const StartScreen(),
+      home: const AppShell(),
     );
   }
 }
