@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/question.dart';
 import '../providers/game_provider.dart';
 import '../providers/language_provider.dart';
@@ -29,6 +30,39 @@ class StartScreen extends ConsumerWidget {
                    ),
                    Row(
                      children: [
+                       // Follow me button
+                       GestureDetector(
+                         onTap: () async {
+                           final uri = Uri.parse('https://github.com/shad-ct');
+                           if (await canLaunchUrl(uri)) {
+                             await launchUrl(uri, mode: LaunchMode.externalApplication);
+                           }
+                         },
+                         child: Container(
+                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                           decoration: BoxDecoration(
+                             border: Border.all(color: const Color(0xFF3F3F46)),
+                             borderRadius: BorderRadius.circular(20),
+                           ),
+                           child: Row(
+                             mainAxisSize: MainAxisSize.min,
+                             children: const [
+                               Icon(Icons.code, color: Colors.white70, size: 13),
+                               SizedBox(width: 4),
+                               Text(
+                                 'Follow me',
+                                 style: TextStyle(
+                                   color: Colors.white70,
+                                   fontSize: 11,
+                                   fontWeight: FontWeight.w500,
+                                   fontFamily: 'Inter',
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       ),
+                       const SizedBox(width: 4),
                        TextButton(
                          onPressed: () {
                            ref.read(languageProvider.notifier).toggle();

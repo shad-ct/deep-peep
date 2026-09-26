@@ -18,6 +18,7 @@ dependencies:
   flutter_animate: ^4.5.2
   gap: ^3.0.1
   share_plus: ^12.0.1
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
