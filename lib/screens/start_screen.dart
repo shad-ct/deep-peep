@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../models/question.dart';
 import '../providers/game_provider.dart';
 import '../providers/language_provider.dart';
+import '../widgets/follow_me_button.dart';
 import 'game_screen.dart';
 import 'favorites_screen.dart';
 
@@ -21,37 +21,42 @@ class StartScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  Image.asset(
-                    'lib/assets/deep.png',
-                    height: 40,
+                  // Left: logo
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Image.asset(
+                      'lib/assets/deep.png',
+                      height: 40,
+                    ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const _FollowMeButton(),
-                      TextButton(
-                        onPressed: () {
-                          ref.read(languageProvider.notifier).toggle();
-                        },
-                        child: Text(
-                          language == AppLanguage.malayalam ? 'English' : 'മലയാളം',
-                          style: const TextStyle(color: Colors.white70),
+                  // Center: Follow me button
+                  const Center(child: FollowMeButton()),
+                  // Right: icons
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.translate, color: Colors.white70, size: 20),
+                          onPressed: () => ref.read(languageProvider.notifier).toggle(),
+                          tooltip: language == AppLanguage.malayalam ? 'English' : 'മലയാളം',
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.favorite, color: Colors.white70),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const FavoritesScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                        IconButton(
+                          icon: const Icon(Icons.favorite, color: Colors.white70),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const FavoritesScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -153,80 +158,5 @@ class _CategoryButton extends StatelessWidget {
         ),
       ),
     ).animate().fadeIn().slideX(begin: 0.1, end: 0);
-  }
-}
-
-class _FollowMeButton extends StatefulWidget {
-  const _FollowMeButton();
-
-  @override
-  State<_FollowMeButton> createState() => _FollowMeButtonState();
-}
-
-class _FollowMeButtonState extends State<_FollowMeButton>
-    with SingleTickerProviderStateMixin {
-  bool _pressed = false;
-
-  Future<void> _launch() async {
-    final uri = Uri.parse('https://github.com/shad-ct');
-    try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (_) {
-      // fallback: try platform default
-      await launchUrl(uri);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => setState(() => _pressed = true),
-      onTapUp: (_) {
-        setState(() => _pressed = false);
-        _launch();
-      },
-      onTapCancel: () => setState(() => _pressed = false),
-      child: AnimatedScale(
-        scale: _pressed ? 0.92 : 1.0,
-        duration: const Duration(milliseconds: 120),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xFF27272A),
-                const Color(0xFF3F3F46),
-              ],
-            ),
-            border: Border.all(color: const Color(0xFF52525B), width: 0.8),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Icon(Icons.code_rounded, color: Colors.white, size: 12),
-              SizedBox(width: 5),
-              Text(
-                'Follow me',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Inter',
-                  letterSpacing: 0.3,
-                ),
-              ),
-            ],
-          ),
-        )
-            .animate(onPlay: (controller) => controller.repeat())
-            .shimmer(
-              delay: const Duration(seconds: 2),
-              duration: const Duration(milliseconds: 1200),
-              color: Colors.white.withOpacity(0.15),
-            ),
-      ),
-    );
   }
 }

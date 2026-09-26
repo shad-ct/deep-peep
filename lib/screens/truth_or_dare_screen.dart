@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import '../providers/mini_games_provider.dart';
 import '../providers/language_provider.dart';
+import '../widgets/follow_me_button.dart';
 
 class TruthOrDareScreen extends ConsumerStatefulWidget {
   const TruthOrDareScreen({super.key});
@@ -36,6 +37,22 @@ class _TruthOrDareScreenState extends ConsumerState<TruthOrDareScreen> {
     final language = ref.watch(languageProvider);
     final isMl = language == AppLanguage.malayalam;
 
+    // Auto-go back to selection when all cards are done
+    ref.listen(truthSessionProvider, (prev, next) {
+      if (next.isExhausted && mode == TruthOrDareMode.truth) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(truthOrDareMode_Provider.notifier).reset();
+        });
+      }
+    });
+    ref.listen(dareSessionProvider, (prev, next) {
+      if (next.isExhausted && mode == TruthOrDareMode.dare) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(truthOrDareMode_Provider.notifier).reset();
+        });
+      }
+    });
+
     if (!_initialized) {
       return const Scaffold(
         backgroundColor: Color(0xFF09090B),
@@ -62,6 +79,9 @@ class _TruthOrDareScreenState extends ConsumerState<TruthOrDareScreen> {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
+              const Gap(16),
+              // Follow me button centered above the title
+              const Center(child: FollowMeButton()),
               const Gap(16),
               Text(
                 isMl ? 'ട്രൂത്ത് ഓർ ഡെയർ' : 'Truth or Dare',
@@ -209,12 +229,8 @@ class _TruthOrDareScreenState extends ConsumerState<TruthOrDareScreen> {
                       ),
                       const Gap(24),
                       ElevatedButton(
-                        onPressed: () async {
-                          if (isTruth) {
-                            await ref.read(truthSessionProvider.notifier).reset();
-                          } else {
-                            await ref.read(dareSessionProvider.notifier).reset();
-                          }
+                        onPressed: () {
+                          ref.read(truthOrDareMode_Provider.notifier).reset();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: color.withOpacity(0.2),
@@ -224,7 +240,7 @@ class _TruthOrDareScreenState extends ConsumerState<TruthOrDareScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: Text(resetLabel),
+                        child: Text(isMl ? 'മടങ്ങുക' : 'Back to Menu'),
                       ),
                     ],
                   ).animate().fadeIn(duration: 600.ms),

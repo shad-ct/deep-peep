@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import '../providers/mini_games_provider.dart';
 import '../providers/language_provider.dart';
 import '../models/game_item.dart';
+import '../widgets/follow_me_button.dart';
 
 class NeverHaveIEverScreen extends ConsumerStatefulWidget {
   const NeverHaveIEverScreen({super.key});
@@ -50,23 +51,32 @@ class _NeverHaveIEverScreenState extends ConsumerState<NeverHaveIEverScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Text(
-                    isMl ? 'ഒരിക്കലും ഇല്ല' : 'NEVER HAVE I EVER',
-                    style: const TextStyle(
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white38,
-                      fontSize: 11,
+                  // Left: screen title
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      isMl ? 'ഒരിക്കലും ഇല്ല' : 'NEVER HAVE I EVER',
+                      style: const TextStyle(
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white38,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
-                  // Translate toggle button
-                  IconButton(
-                    icon: const Icon(Icons.translate, color: Colors.white38, size: 20),
-                    onPressed: () => ref.read(languageProvider.notifier).toggle(),
-                    tooltip: isMl ? 'English' : 'മലയാളം',
+                  // Center: Follow me button
+                  const Center(child: FollowMeButton()),
+                  // Right: translate icon
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.translate, color: Colors.white38, size: 20),
+                      onPressed: () => ref.read(languageProvider.notifier).toggle(),
+                      tooltip: isMl ? 'English' : 'മലയാളം',
+                    ),
                   ),
                 ],
               ),

@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import '../providers/mini_games_provider.dart';
 import '../providers/language_provider.dart';
 import '../models/game_item.dart';
+import '../widgets/follow_me_button.dart';
 
 class ThisOrThatScreen extends ConsumerStatefulWidget {
   const ThisOrThatScreen({super.key});
@@ -49,22 +50,32 @@ class _ThisOrThatScreenState extends ConsumerState<ThisOrThatScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Text(
-                    isMl ? 'ഇതോ അതോ' : 'THIS OR THAT',
-                    style: const TextStyle(
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white38,
-                      fontSize: 11,
+                  // Left: screen title
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      isMl ? 'ഇതോ അതോ' : 'THIS OR THAT',
+                      style: const TextStyle(
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white38,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.translate, color: Colors.white38, size: 20),
-                    onPressed: () => ref.read(languageProvider.notifier).toggle(),
-                    tooltip: isMl ? 'English' : 'മലയാളം',
+                  // Center: Follow me button
+                  const Center(child: FollowMeButton()),
+                  // Right: translate icon
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.translate, color: Colors.white38, size: 20),
+                      onPressed: () => ref.read(languageProvider.notifier).toggle(),
+                      tooltip: isMl ? 'English' : 'മലയാളം',
+                    ),
                   ),
                 ],
               ),
