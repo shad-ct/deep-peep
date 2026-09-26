@@ -24,68 +24,38 @@ class StartScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Image.asset(
-                     'lib/assets/deep.png',
-                     height: 40,
-                   ),
-                   Row(
-                     children: [
-                       // Follow me button
-                       GestureDetector(
-                         onTap: () async {
-                           final uri = Uri.parse('https://github.com/shad-ct');
-                           if (await canLaunchUrl(uri)) {
-                             await launchUrl(uri, mode: LaunchMode.externalApplication);
-                           }
-                         },
-                         child: Container(
-                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                           decoration: BoxDecoration(
-                             border: Border.all(color: const Color(0xFF3F3F46)),
-                             borderRadius: BorderRadius.circular(20),
-                           ),
-                           child: Row(
-                             mainAxisSize: MainAxisSize.min,
-                             children: const [
-                               Icon(Icons.code, color: Colors.white70, size: 13),
-                               SizedBox(width: 4),
-                               Text(
-                                 'Follow me',
-                                 style: TextStyle(
-                                   color: Colors.white70,
-                                   fontSize: 11,
-                                   fontWeight: FontWeight.w500,
-                                   fontFamily: 'Inter',
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ),
-                       const SizedBox(width: 4),
-                       TextButton(
-                         onPressed: () {
-                           ref.read(languageProvider.notifier).toggle();
-                         },
-                         child: Text(
-                           language == AppLanguage.malayalam ? 'English' : 'മലയാളം',
-                           style: const TextStyle(color: Colors.white70),
-                         ),
-                       ),
-                       IconButton(
+                  Image.asset(
+                    'lib/assets/deep.png',
+                    height: 40,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const _FollowMeButton(),
+                      TextButton(
+                        onPressed: () {
+                          ref.read(languageProvider.notifier).toggle();
+                        },
+                        child: Text(
+                          language == AppLanguage.malayalam ? 'English' : 'മലയാളം',
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                      IconButton(
                         icon: const Icon(Icons.favorite, color: Colors.white70),
                         onPressed: () {
-                           Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const FavoritesScreen(),
-                                ),
-                              );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const FavoritesScreen(),
+                            ),
+                          );
                         },
                       ),
-                     ],
-                   )
+                    ],
+                  ),
                 ],
               ),
+
               const Gap(10),
 
               Expanded(
@@ -183,5 +153,80 @@ class _CategoryButton extends StatelessWidget {
         ),
       ),
     ).animate().fadeIn().slideX(begin: 0.1, end: 0);
+  }
+}
+
+class _FollowMeButton extends StatefulWidget {
+  const _FollowMeButton();
+
+  @override
+  State<_FollowMeButton> createState() => _FollowMeButtonState();
+}
+
+class _FollowMeButtonState extends State<_FollowMeButton>
+    with SingleTickerProviderStateMixin {
+  bool _pressed = false;
+
+  Future<void> _launch() async {
+    final uri = Uri.parse('https://github.com/shad-ct');
+    try {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // fallback: try platform default
+      await launchUrl(uri);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) {
+        setState(() => _pressed = false);
+        _launch();
+      },
+      onTapCancel: () => setState(() => _pressed = false),
+      child: AnimatedScale(
+        scale: _pressed ? 0.92 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF27272A),
+                const Color(0xFF3F3F46),
+              ],
+            ),
+            border: Border.all(color: const Color(0xFF52525B), width: 0.8),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Icon(Icons.code_rounded, color: Colors.white, size: 12),
+              SizedBox(width: 5),
+              Text(
+                'Follow me',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Inter',
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ],
+          ),
+        )
+            .animate(onPlay: (controller) => controller.repeat())
+            .shimmer(
+              delay: const Duration(seconds: 2),
+              duration: const Duration(milliseconds: 1200),
+              color: Colors.white.withOpacity(0.15),
+            ),
+      ),
+    );
   }
 }
