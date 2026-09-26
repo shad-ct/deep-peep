@@ -34,7 +34,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   void _shareQuestion(String text) {
-    Share.share(text);
+    Share.share(
+      '$text\n\n— Checkout DeepPeep App on GitHub: https://github.com/shad-ct/deep-peep/releases',
+    );
   }
 
   @override
