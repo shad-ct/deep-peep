@@ -34,7 +34,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   void _shareQuestion(String text) {
-    Share.share(text);
+    Share.share(
+      '$text\n\n— Checkout DeepPeep App on GitHub: https://github.com/shad-ct/deep-peep/releases',
+    );
   }
 
   @override
@@ -72,7 +74,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                           color: Colors.white38,
                           fontSize: 12,
                           decoration: TextDecoration.none,
-                           fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                           fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                         ),
                       ),
                     ),

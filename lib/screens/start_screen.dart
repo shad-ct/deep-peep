@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import '../models/question.dart';
 import '../providers/game_provider.dart';
 import '../providers/language_provider.dart';
+import '../widgets/follow_me_button.dart';
 import 'game_screen.dart';
 import 'favorites_screen.dart';
 
@@ -20,38 +21,46 @@ class StartScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                   Image.asset(
-                     'lib/assets/deep.png',
-                     height: 40,
-                   ),
-                   Row(
-                     children: [
-                       TextButton(
-                         onPressed: () {
-                           ref.read(languageProvider.notifier).toggle();
-                         },
-                         child: Text(
-                           language == AppLanguage.malayalam ? 'English' : 'മലയാളം',
-                           style: const TextStyle(color: Colors.white70),
-                         ),
-                       ),
-                       IconButton(
-                        icon: const Icon(Icons.favorite, color: Colors.white70),
-                        onPressed: () {
-                           Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const FavoritesScreen(),
-                                ),
-                              );
-                        },
-                      ),
-                     ],
-                   )
+                  // Left: logo
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Image.asset(
+                      'lib/assets/deep.png',
+                      height: 40,
+                    ),
+                  ),
+                  // Center: Follow me button
+                  const Center(child: FollowMeButton()),
+                  // Right: icons
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.translate, color: Colors.white70, size: 20),
+                          onPressed: () => ref.read(languageProvider.notifier).toggle(),
+                          tooltip: language == AppLanguage.malayalam ? 'English' : 'മലയാളം',
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.favorite, color: Colors.white70),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const FavoritesScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
+
               const Gap(10),
 
               Expanded(
@@ -130,7 +139,7 @@ class _CategoryButton extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
-                      fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                      fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                     ),
                   ),
                 ),
@@ -139,7 +148,7 @@ class _CategoryButton extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[500],
-                    fontFamily: language == AppLanguage.malayalam ? 'GoogleFonts.notoSansMalayalam' : null,
+                    fontFamily: language == AppLanguage.malayalam ? 'NotoSansMalayalam' : 'Inter',
                   ),
                 ),
               ],
